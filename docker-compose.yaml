@@ -1,0 +1,26 @@
+services:
+  mirror:
+    container_name: mirror
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    entrypoint:
+    - ./mqtt-mirror tcp://192.168.10.229:1883 tcp://172.17.0.1:1883 --verbose
+    image: antegulin/mqtt-mirror
+  broker:
+    container_name: broker
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    expose:
+    - 9001
+    - 1883
+    image: eclipse-mosquitto
+    labels:
+      generated: by 8gwifi.org
+    ports:
+    - '9001'
+    - '1883'
+version: '3'
